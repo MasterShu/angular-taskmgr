@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
-import { DomSanitizer } from '@angular/platform-browser';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -23,8 +23,8 @@ export class HeaderComponent implements OnInit {
     this.toggle.emit();
   }
 
-  onChange(checked: boolean) {
-    this.toggleDarkTheme.emit(checked);
+  onChange(state: any) {
+    this.toggleDarkTheme.emit(state.checked);
   }
 
 }
