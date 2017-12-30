@@ -8,16 +8,26 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { loadSvgResources } from '../utils/svg.utils';
+import { AppRoutingModule } from '../app-routing.module';
 
 @NgModule({
   imports: [
     SharedModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    AppRoutingModule,
   ],
-  declarations: [HeaderComponent, FooterComponent, SidebarComponent],
+  declarations: [
+    HeaderComponent,
+    FooterComponent,
+    SidebarComponent,
+  ],
   exports: [
-    HeaderComponent, FooterComponent, SidebarComponent
+    HeaderComponent,
+    FooterComponent,
+    SidebarComponent,
+    AppRoutingModule,
+    SharedModule,
   ]
 })
 export class CoreModule {
