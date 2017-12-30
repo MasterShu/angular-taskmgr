@@ -1,4 +1,5 @@
 import { Directive, HostListener, Input, ElementRef, Renderer2 } from '@angular/core';
+import { DragDropService } from '../drag-drop.service';
 
 @Directive({
   selector: '[appDroppable]'
@@ -6,8 +7,16 @@ import { Directive, HostListener, Input, ElementRef, Renderer2 } from '@angular/
 export class DropDirective {
 
   @Input() drapEnterClass: string;
+  @Input() dropTags: string[] = [];
+  private data$;
 
-  constructor(private el: ElementRef, private rd: Renderer2) { }
+  constructor(
+    private el: ElementRef,
+    private rd: Renderer2,
+    private service: DragDropService
+  ) {
+    this.data$ = this.service.getDragData().take(1);
+  }
 
   @HostListener('dragenter', ['$event'])
   onDragEnter(ev: Event) {
