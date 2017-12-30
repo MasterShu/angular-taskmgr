@@ -17,7 +17,6 @@ export class CopyTaskComponent implements OnInit {
 
   ngOnInit() {
     this.lists = this.data.lists;
-    console.log(this.data)
   }
 
 }
