@@ -2,13 +2,13 @@ import { Directive, HostListener, Renderer2, ElementRef, Input } from '@angular/
 import { DragDropService } from '../drag-drop.service';
 
 @Directive({
-  selector: '[appDraggable][draggedClass]'
+  selector: '[app-draggable][dragTag][dragData][draggedClass]'
 })
 export class DragDirective {
 
   private _isDraggble = false;
 
-  @Input('appDraggable')
+  @Input('app-draggable')
   set isDraggble(val: boolean) {
     this._isDraggble = val;
     this.rd.setAttribute(this.el.nativeElement, 'draggable', `${val}`);

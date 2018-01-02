@@ -10,6 +10,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { loadSvgResources } from '../utils/svg.utils';
 import { AppRoutingModule } from '../app-routing.module';
 import 'rxjs/add/operator/take';
+import { ServicesModule } from '../services/services.module';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import 'rxjs/add/operator/take';
     HttpClientModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    ServicesModule.forRoot(),
   ],
   declarations: [
     HeaderComponent,

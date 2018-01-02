@@ -1,4 +1,4 @@
-<form action="">
+<form [formGroup]="form" (ngSubmit)="onSubmit(form, $event)">
   <mat-card>
     <mat-card-header>
       <mat-card-title>登录: </mat-card-title>
@@ -6,12 +6,13 @@
     </mat-card-header>
     <mat-card-content>
       <mat-form-field class="full-width">
-        <input matInput placeholder="您的 email">
+        <input matInput placeholder="您的 email" formControlName="email">
+        <mat-error>{{ form.controls['email'].errors | json}}</mat-error>
       </mat-form-field>
       <mat-form-field  class="full-width">
-        <input matInput type="password" placeholder="您的密码">
+        <input matInput type="password" placeholder="您的密码"  formControlName="password">
       </mat-form-field>
-      <button mat-mini-fab type="button">登录</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">登录</button>
     </mat-card-content>
     <mat-card-actions class="text-right">
       <p>还没有账户?
@@ -31,7 +32,7 @@
     </mat-card-header>
     <img mat-card-image src="/assets/quote_fallback.jpg" alt="">
     <mat-card-content>
-      
+
     </mat-card-content>
   </mat-card>
 </form>
