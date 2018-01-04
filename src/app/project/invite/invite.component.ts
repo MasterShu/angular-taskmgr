@@ -28,4 +28,7 @@ export class InviteComponent implements OnInit {
   ngOnInit() {
   }
 
+  onClick() {
+  }
+
 }

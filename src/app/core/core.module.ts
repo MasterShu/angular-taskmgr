@@ -9,8 +9,11 @@ import { FooterComponent } from './footer/footer.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { loadSvgResources } from '../utils/svg.utils';
 import { AppRoutingModule } from '../app-routing.module';
-import 'rxjs/add/operator/take';
 import { ServicesModule } from '../services/services.module';
+// import 'rxjs/add/operator/take';
+// tslint:disable-next-line:import-blacklist
+import 'rxjs/Rx';
+import '../utils/debug.util';
 
 @NgModule({
   imports: [
@@ -31,6 +34,14 @@ import { ServicesModule } from '../services/services.module';
     SidebarComponent,
     AppRoutingModule,
     SharedModule,
+  ],
+  providers: [
+    {
+      provide: 'BASE_CONFIG',
+      useValue: {
+        uri: 'http://localhost:3000'
+      }
+    }
   ]
 })
 export class CoreModule {

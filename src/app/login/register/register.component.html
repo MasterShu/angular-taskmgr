@@ -24,8 +24,8 @@
         [items]="items"
         formControlName="avatar"
       >
-
       </app-image-list-select>
+      <app-age-input formControlName="dateOfBirth" (change)="onChange($event)"></app-age-input>
       <button mat-mini-fab type="submit">登录</button>
     </mat-card-content>
     <mat-card-actions class="text-right">
