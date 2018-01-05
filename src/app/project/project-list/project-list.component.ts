@@ -17,7 +17,6 @@ import { listAnimation } from '../../anims/list.anim';
 import { ProjectService } from '../../services/project.service';
 import * as _ from 'lodash';
 import { Project } from '../../domain/index';
-import { OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -75,7 +74,7 @@ export class ProjectListComponent implements OnInit, OnDestroy {
   }
 
   launchInviteDialog() {
-    const dialogRef = this.dialog.open(InviteComponent);
+    const dialogRef = this.dialog.open(InviteComponent, {data: {members: []}});
   }
 
   launchUpdateDialog(project: Project) {
@@ -88,9 +87,9 @@ export class ProjectListComponent implements OnInit, OnDestroy {
       .filter(n => n)
       .map(val => ({ ...val, id: project.id, coverImg: this.buildImgSrc(val.coverImg) }))
       .switchMap(v => this.service$.update(v))
-      .subscribe(project => {
+      .subscribe(pro => {
         const index = this.projects.map(p => p.id).indexOf(project.id);
-        this.projects = [...this.projects.slice(0, index), project, ...this.projects.slice(index + 1)];
+        this.projects = [...this.projects.slice(0, index), pro, ...this.projects.slice(index + 1)];
         this.cd.markForCheck();
       });  }
 
