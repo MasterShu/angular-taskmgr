@@ -1,24 +1,9 @@
-import { Component, OnInit, Input, forwardRef, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormControl, FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit, forwardRef, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
-import {
-  parse,
-  isBefore,
-  subDays,
-  differenceInDays,
-  subMonths,
-  differenceInMonths,
-  differenceInYears,
-  format,
-  subYears,
-  isValid,
-  isDate,
-  isFuture
-} from 'date-fns';
 import { Subscription } from 'rxjs/Subscription';
 import { IdentityType, Identity } from '../../domain/index';
 import { Subject } from 'rxjs/Subject';
-import { IdentityType } from '../../domain/user.model';
 
 @Component({
   selector: 'app-identity-input',
@@ -55,9 +40,7 @@ export class IdentityInputComponent implements OnInit, ControlValueAccessor, OnD
 
   private propagateChange = (_: any) => { };
 
-  constructor(
-    private fb: FormBuilder
-  ) { }
+  constructor() { }
 
   ngOnInit() {
     const val$ = Observable.combineLatest(this.idNo, this.idType, (_no, _type) => {
@@ -67,7 +50,9 @@ export class IdentityInputComponent implements OnInit, ControlValueAccessor, OnD
       };
     });
     this.sub = val$.subscribe(id => {
+      this.identity = id;
       this.propagateChange(id);
+      console.log(id);
     });
   }
 
@@ -112,11 +97,11 @@ export class IdentityInputComponent implements OnInit, ControlValueAccessor, OnD
     }
     switch (val.identityType) {
       case IdentityType.IdCard:
-        return this.validateIdCard();
+        return this.validateIdCard(c);
       case IdentityType.Passport:
-        return this.validatePassport();
+        return this.validatePassport(c);
       case IdentityType.Military:
-        return this.validateMilitary();
+        return this.validateMilitary(c);
       case IdentityType.Insurance:
       default: {
         return null;
@@ -125,11 +110,25 @@ export class IdentityInputComponent implements OnInit, ControlValueAccessor, OnD
   }
 
   validateIdCard(c: FormControl): { [key: string]: any } {
-    const val = c.value;
+    const val = c.value.identityNo;
     if (val.length !== 18) {
-      return {idInvalid: true };
+      return { idInvalid: true };
     }
     const pattern = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}[x0-9]$/;
+    return pattern.test(val) ? null : { idNotValid: true };
+  }
+  validatePassport(c: FormControl): { [key: string]: any } {
+    const val = c.value.identityNo;
+    if (val.length !== 9) {
+      return { idInvalid: true };
+    }
+    const pattern = /^[EgEe]\d{8}$/;
+    return pattern.test(val) ? null : { idNotValid: true };
+  }
+  validateMilitary(c: FormControl): { [key: string]: any } {
+    const val = c.value.identityNo;
+    const pattern = /^[\u4e00-\u9fa5](字第)(\d{4,8})(号?)$/;
+    return pattern.test(val) ? null : { idNotValid: true };
   }
 
 

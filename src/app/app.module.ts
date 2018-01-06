@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { LoginModule } from './login/login.module';
 import { ProjectModule } from './project/project.module';
 import { TaskModule } from './task/task.module';
+import { AppEffectsModule } from './effects/index';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { TaskModule } from './task/task.module';
     LoginModule,
     ProjectModule,
     TaskModule,
+    AppEffectsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -10,10 +10,11 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { loadSvgResources } from '../utils/svg.utils';
 import { AppRoutingModule } from '../app-routing.module';
 import { ServicesModule } from '../services/services.module';
-// import 'rxjs/add/operator/take';
 // tslint:disable-next-line:import-blacklist
 import 'rxjs/Rx';
 import '../utils/debug.util';
+import { AppStoreModule } from '../reducers/index';
+import { AppEffectsModule } from '../effects/index';
 
 @NgModule({
   imports: [
@@ -21,6 +22,8 @@ import '../utils/debug.util';
     HttpClientModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    AppStoreModule,
+    AppEffectsModule,
     ServicesModule.forRoot(),
   ],
   declarations: [
@@ -34,6 +37,7 @@ import '../utils/debug.util';
     SidebarComponent,
     AppRoutingModule,
     SharedModule,
+    AppStoreModule,
   ],
   providers: [
     {

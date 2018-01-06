@@ -17,28 +17,37 @@ export class AuthService {
   constructor(private http: HttpClient, @Inject('BASE_CONFIG') private config) {
 
   }
+  /**
+   * 使用用户提供的个人信息进行注册，成功则返回 User，否则抛出异常
+   *
+   * @param user 用户信息，id 属性会被忽略，因为服务器端会创建新的 id
+   */
   register(user: User): Observable<Auth> {
-    const uri = `${this.config.uri}/${this.domain}`;
-    user.id = null;
+    const uri = `${this.config.uri}/users`;
     return this.http
-      .get(uri, { params: new HttpParams().set('email', user.email)})
+      .get(uri, { params: { 'email': user.email } })
       .switchMap(res => {
         if (res.json().length > 0) {
-          throw 'user existed';
+          throw 'username existed';
         }
-        return this.http
-          .post(uri, JSON.stringify(user), {headers: this.headers})
-          .map(r => ({token: this.token, user: r.json()}))
+        return this.http.post(uri, JSON.stringify(user), { headers: this.headers })
+          .map(r => ({ token: this.token, user: r.json() }));
       });
   }
 
-  login(username: string, password: string): Observable<Auth> {
-    const uri = `${this.config.uri}/${this.domain}`;
+  /**
+   * 使用用户名和密码登录
+   *
+   * @param username 用户名
+   * @param password 密码（明文），服务器会进行加密处理
+   */
+  login(email: string, password: string): Observable<Auth> {
+    const uri = `${this.config.uri}/users`;
     return this.http
-      .get(uri, { params: new HttpParams().set('email', username).set( 'password', password) })
+      .get(uri, { params: { 'email': email, 'password': password } })
       .map(res => {
         if (res.json().length === 0) {
-          throw 'username or password not match';
+          throw 'Login Failed';
         }
         return {
           token: this.token,

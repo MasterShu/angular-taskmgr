@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { QuoteService } from '../../services/quote.service';
 import { Quote } from '../../domain/quote.model';
+import { Observable } from 'rxjs/Observable';
+import { Store } from '@ngrx/store';
+import * as fromRoot from '../../reducers/index';
+import * as actions from '../../actions/quote.action';
 
 @Component({
   selector: 'app-login',
@@ -11,18 +14,13 @@ import { Quote } from '../../domain/quote.model';
 export class LoginComponent implements OnInit {
 
   form: FormGroup;
-  quote: Quote = {
-    cn: '奔跑吧, 骚年...',
-    en: 'run baby...',
-    pic: 'assets/img/quote_fallback.jpg'
-  };
+  quote$: Observable<Quote>;
   constructor(
     private fb: FormBuilder,
-    private quoteService$: QuoteService
+    private store$: Store<fromRoot.State>
   ) {
-    this.quoteService$
-      .getQuote()
-      .subscribe(q => this.quote = q);
+    this.quote$ = this.store$.select(fromRoot.getQuote);
+    this.store$.dispatch(new actions.LoadAction(null));
   }
 
   ngOnInit() {
