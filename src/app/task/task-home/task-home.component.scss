@@ -1,0 +1,25 @@
+.task-lists {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    overflow-x: scroll;
+}
+
+.list-container {
+    flex: 0 0 360px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.fab-button {
+    position: fixed;
+    right: 32px;
+    bottom: 96px;
+    z-index: 999;
+}
+
+.drag-enter {
+  background-color: beige;
+}

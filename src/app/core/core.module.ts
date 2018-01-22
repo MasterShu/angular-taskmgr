@@ -8,16 +8,44 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { loadSvgResources } from '../utils/svg.utils';
+import { AppRoutingModule } from '../app-routing.module';
+import { ServicesModule } from '../services/services.module';
+// tslint:disable-next-line:import-blacklist
+import 'rxjs/Rx';
+import '../utils/debug.util';
+import { AppStoreModule } from '../reducers/index';
+import { AppEffectsModule } from '../effects/index';
 
 @NgModule({
   imports: [
     SharedModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    AppStoreModule,
+    AppEffectsModule,
+    ServicesModule.forRoot(),
   ],
-  declarations: [HeaderComponent, FooterComponent, SidebarComponent],
+  declarations: [
+    HeaderComponent,
+    FooterComponent,
+    SidebarComponent,
+  ],
   exports: [
-    HeaderComponent, FooterComponent, SidebarComponent
+    HeaderComponent,
+    FooterComponent,
+    SidebarComponent,
+    AppRoutingModule,
+    SharedModule,
+    AppStoreModule,
+  ],
+  providers: [
+    {
+      provide: 'BASE_CONFIG',
+      useValue: {
+        uri: 'http://localhost:3000'
+      }
+    }
   ]
 })
 export class CoreModule {
